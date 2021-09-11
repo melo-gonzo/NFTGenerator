@@ -23,13 +23,14 @@ class NFTGenerator:
                             'red': (255, 102, 99)}
         self.helmet = {'leather': 'leather_helmet.png',
                        'gold': 'gold_helmet.png'}
-        self.helmet_center = [[39,27],[22,22]]
+        self.head_center = [[39, 27], [39, 44]]
+        self.helmet_center = [[30,30]]
 
         self.chest = {'leather': 'leather.png'}
-        self.chest_center = [[55,59],[55,59]]
+        self.chest_center = [[55,59]]
 
         self.pants = {'leather': 'leather_pants.png'}
-        self.pants_center = [[100,200],[100,100]]
+        self.pants_center = [[100,200]]
 
         self.minecraft = {'default' : 'final_char.png'}
 
@@ -120,9 +121,12 @@ class NFTGenerator:
 
         new_layer = self.background_mask.copy()
         m, n = layer_mask.shape[:2]
+        print(m,n)
         mc, nc = int(m / 2), int(n / 2)
+        print(mc,nc)
         for c in center:
             xc, yc = c
+            print('xc/yc ' + str(xc) + ' ' +str(yc))
             if m % 2 == 1 and n % 2 == 1:
                 new_layer[xc - mc - 1:xc + mc, yc - nc - 1:yc + nc, :] = layer_mask
             elif m % 2 == 1:
@@ -145,10 +149,10 @@ class NFTGenerator:
         self.current_image = self.background.copy()
 
 p = NFTGenerator()
-p.show_plots = True
+p.show_plots = False
 p.create_background('rainbow')
 p.add_layer(p.minecraft['default'], p.center)
-p.add_layer(p.helmet['leather'], p.helmet_center)
+p.add_layer(p.helmet['leather'], p.head_center)
 # p.add_layer(p.masks['tongue'], p.masks_center)
 # p.add_layer(p.eyes['sunglasses'], p.glasses_center)
 # p.make_plot(p.current_image)
