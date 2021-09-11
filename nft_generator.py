@@ -24,7 +24,7 @@ class NFTGenerator:
         self.helmet = {'leather': 'leather_helmet.png',
                        'gold': 'gold_helmet.png'}
         self.head_center = [[39, 27], [39, 44]]
-        self.helmet_center = [[30,30]]
+        self.helmet_center = [[15,25]]
 
         self.chest = {'leather': 'leather.png'}
         self.chest_center = [[55,59]]
@@ -150,9 +150,9 @@ class NFTGenerator:
 
 p = NFTGenerator()
 p.show_plots = False
-p.create_background('rainbow')
-p.add_layer(p.minecraft['default'], p.center)
-p.add_layer(p.helmet['leather'], p.helmet_center)
+# p.create_background('rainbow')
+#p.add_layer(p.minecraft['default'], p.center)
+#p.add_layer(p.helmet['leather'], p.helmet_center)
 # p.add_layer(p.chest['leather'], p.chest_center)
 # p.add_layer(p.pants['leather'], p.pants_center)
 # p.make_plot(p.current_image)
@@ -169,8 +169,8 @@ background_type = list(backgrounds.keys())
 
 backgrounds_remaining = copy.deepcopy(backgrounds)
 
-helmet = {'leather': 50,
-        'gold': 50,
+helmet = {'leather': 55,
+        'gold': 45,
         'none': 0}
 helmet_type = list(helmet.keys())
 helmet_remaining = copy.deepcopy(helmet)
@@ -227,9 +227,7 @@ while total_made < np.sum([b for b in backgrounds.values()]):
     background_ = p.select_random(background_type, backgrounds_remaining)
     while background_ == 'none':
         background_ = p.select_random(background_type, backgrounds_remaining)
-    #eyes_ = p.select_random(eye_type, eyes_remaining)
-    #hat_ = p.select_random(hat_type, hats_remaining)
-    #face_ = p.select_random(face_type, faces_remaining)
+
     helmet_ = p.select_random(helmet_type, helmet_remaining)
     chest_ = p.select_random(chest_type, chest_remaining)
     pants_ = p.select_random(pants_type, pants_remaining)
