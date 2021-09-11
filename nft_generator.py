@@ -9,8 +9,8 @@ import os
 class NFTGenerator:
     def __init__(self):
         self.show_plots = True
-        self.mask_dir = '/home/carmelo/Projects/NFTGenerator/Masks/'
-        self.shape = (70, 70)
+        self.mask_dir = "C:\\Users\\Ljubo\\Desktop\\nft\\"
+        self.shape = (50, 50)
         self.center = [int(self.shape[0] / 2), int(self.shape[1] / 2)]
         self.background = 1 * np.ones((self.shape[0], self.shape[1], 4)).astype('float32')
         self.background_mask = 0 * np.ones((self.shape[0], self.shape[1], 4)).astype('float32')
@@ -21,6 +21,17 @@ class NFTGenerator:
                             'yellow': (253, 253, 151),
                             'orange': (254, 177, 68),
                             'red': (255, 102, 99)}
+        self.helmet = {'leather': 'leather_helmet.png',
+                       'gold': 'gold_helmet.png'}
+        self.helmet_center = [[39,27],[22,22]]
+
+        self.chest = {'leather': 'leather.png'}
+        self.chest_center = [[55,59],[55,59]]
+
+        self.pants = {'leather': 'leather_pants.png'}
+        self.pants_center = [[100,200],[100,100]]
+
+        self.minecraft = {'default' : 'final_char.png'}
 
         self.eyes = {'ether': 'ethereum_eyes_thumbnail_mask_new.png',
                      'bitcoin': 'bitcoin_eyes_thumbnail_mask.png',
@@ -48,9 +59,11 @@ class NFTGenerator:
                      'no_mouth': 'base_no_mouth_thumbnail_mask.png',
                      'no_eyes': 'base_no_eyes_thumbnail_mask.png',
                      'base': 'base_thumbnail_mask.png'}
+
         self.center = [[int(self.shape[0] / 2), int(self.shape[1] / 2)]]
 
-        self.combinations = (len(self.eyes) - 1) * len(self.hats) * len(self.masks) * len(self.backgrounds)
+        #self.combinations = (len(self.eyes) - 1) * len(self.hats) * len(self.masks) * len(self.backgrounds)
+        self.combinations = (len(self.helmet) -1) * len(self.chest) * len(self.pants)
         print(self.combinations)
 
     def combine_images(self, input_image):
@@ -98,7 +111,7 @@ class NFTGenerator:
         if self.show_plots: self.make_plot(self.current_image)
 
     def add_layer(self, layer_mask, center):
-        # print(layer_mask)
+        print(layer_mask)
         if isinstance(layer_mask, str):
             layer_mask = plt.imread(self.mask_dir + layer_mask)
             a = layer_mask.copy()
@@ -131,12 +144,11 @@ class NFTGenerator:
         self.background = 1 * np.ones((self.shape[0], self.shape[1], 4)).astype('float32')
         self.current_image = self.background.copy()
 
-
 p = NFTGenerator()
-p.show_plots = False
-# p.create_background('rainbow')
-# p.add_layer(p.base['base'], p.center)
-# p.add_layer(p.hats['spinner'], p.hats_center)
+p.show_plots = True
+p.create_background('rainbow')
+p.add_layer(p.minecraft['default'], p.center)
+p.add_layer(p.helmet['leather'], p.helmet_center)
 # p.add_layer(p.masks['tongue'], p.masks_center)
 # p.add_layer(p.eyes['sunglasses'], p.glasses_center)
 # p.make_plot(p.current_image)
@@ -152,6 +164,24 @@ backgrounds = {'purple': 100,
 background_type = list(backgrounds.keys())
 
 backgrounds_remaining = copy.deepcopy(backgrounds)
+
+helmet = {'leather': 50,
+        'gold': 50,
+        'none': 0}
+helmet_type = list(helmet.keys())
+helmet_remaining = copy.deepcopy(helmet)
+
+chest = {'leather': 50,
+        #'gold': 50,
+        'none': 50}
+chest_type = list(chest.keys())
+chest_remaining = copy.deepcopy(chest)
+
+pants = {'leather': 50,
+        #'gold': 50,
+        'none': 50}
+pants_type = list(pants.keys())
+pants_remaining = copy.deepcopy(pants)
 
 eyes = {'ether': 75,
         'bitcoin': 75,
@@ -193,44 +223,49 @@ while total_made < np.sum([b for b in backgrounds.values()]):
     background_ = p.select_random(background_type, backgrounds_remaining)
     while background_ == 'none':
         background_ = p.select_random(background_type, backgrounds_remaining)
-    eyes_ = p.select_random(eye_type, eyes_remaining)
-    hat_ = p.select_random(hat_type, hats_remaining)
-    face_ = p.select_random(face_type, faces_remaining)
-    if eyes_ != 'none' and face_ != 'none' and face_ != 'tongue':
-        base_ = 'no_eyes_no_mouth'
-    elif eyes_ != 'none':
-        base_ = 'no_eyes'
-    elif face_ != 'none' and face_ != 'tongue':
-        base_ = 'no_mouth'
-    else:
-        base_ = 'base'
+    #eyes_ = p.select_random(eye_type, eyes_remaining)
+    #hat_ = p.select_random(hat_type, hats_remaining)
+    #face_ = p.select_random(face_type, faces_remaining)
+    helmet_ = p.select_random(helmet_type, helmet_remaining)
+    chest_ = p.select_random(chest_type, chest_remaining)
+    pants_ = p.select_random(pants_type, pants_remaining)
+    base_ = 'default' #default character
 
-    layer_stack = [background_, base_, eyes_, hat_, face_]
+    #if helmet_ != 'none' and chest_ != 'none' and chest != 'none':
+    #    base_ = 'no_eyes_no_mouth'
+    #elif eyes_ != 'none':
+    #    base_ = 'no_eyes'
+    #elif face_ != 'none' and face_ != 'tongue':
+    #    base_ = 'no_mouth'
+    #else:
+    #    base_ = 'base'
+
+    layer_stack = [background_, helmet_, chest_, pants_]
     cp_name = '-'.join(layer_stack)
     if cp_name not in types_made:
         if background_ != 'none':
             p.create_background(background_)
         if base_ != 'none':
-            p.add_layer(p.base[base_], p.center)
-        if eyes_ != 'none':
-            if eyes_ == 'sunglasses':
-                p.add_layer(p.eyes[eyes_], p.glasses_center)
+            p.add_layer(p.minecraft[base_], p.center)
+        if helmet_ != 'none':
+            if helmet_ == 'sunglasses':
+                p.add_layer(p.helmet[helmet_], p.helmet_center)
             else:
-                p.add_layer(p.eyes[eyes_], p.eyes_center)
-        if hat_ != 'none':
-            p.add_layer(p.hats[hat_], p.hats_center)
-        if face_ != 'none':
-            p.add_layer(p.masks[face_], p.masks_center)
+                p.add_layer(p.helmet[helmet_], p.helmet_center)
+        if chest_ != 'none':
+            p.add_layer(p.chest[chest_], p.chest_center)
+        if pants_ != 'none':
+            p.add_layer(p.pants[pants_], p.pants_center)
 
         # p.make_plot(p.current_image)
         types_made.append(cp_name)
         backgrounds_remaining[background_] -= 1
-        eyes_remaining[eyes_] -= 1
-        hats_remaining[hat_] -= 1
-        faces_remaining[face_] -= 1
+        helmet_remaining[helmet_] -= 1
+        chest_remaining[chest_] -= 1
+        pants_remaining[pants_] -= 1
         total_made += 1
-        plt.imsave('CryptoPoopiesBackup/crypto_poopie_' + cp_name + '_' + str(total_made) + '.png', p.current_image)
-        plt.imsave('CryptoPoopies/crypto_poopie_' + str(total_made) + '.png', p.current_image)
+        plt.imsave("D:\\Git\\nftgen\\NFTGenerator\\final_images\\" + cp_name + '_' + str(total_made) + '.png', p.current_image)
+        plt.imsave("D:\\Git\\nftgen\\NFTGenerator\\final_images\\" + str(total_made) + '.png', p.current_image)
         print(cp_name)
     else:
         attempts += 1
