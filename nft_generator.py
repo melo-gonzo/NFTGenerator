@@ -152,9 +152,9 @@ p = NFTGenerator()
 p.show_plots = False
 p.create_background('rainbow')
 p.add_layer(p.minecraft['default'], p.center)
-p.add_layer(p.helmet['leather'], p.head_center)
-# p.add_layer(p.masks['tongue'], p.masks_center)
-# p.add_layer(p.eyes['sunglasses'], p.glasses_center)
+p.add_layer(p.helmet['leather'], p.helmet_center)
+# p.add_layer(p.chest['leather'], p.chest_center)
+# p.add_layer(p.pants['leather'], p.pants_center)
 # p.make_plot(p.current_image)
 
 ### Rarity Def's, Backgrounds specify max number of NFT's
