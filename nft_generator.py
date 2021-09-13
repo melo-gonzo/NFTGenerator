@@ -5,12 +5,11 @@ import random
 import copy
 import os
 
-
 class NFTGenerator:
     def __init__(self):
         self.show_plots = True
-        # self.mask_dir = "C:\\Users\\Ljubo\\Desktop\\nft\\"
-        self.mask_dir = '/home/carmelo/Projects/NFTGenerator/images_gimp/'
+        self.mask_dir = "D:\\Git\\nftgen\\NFTGenerator\\images_gimp\\"
+        # self.mask_dir = '/home/carmelo/Projects/NFTGenerator/images_gimp/'
         self.shape = (50, 50)
         self.center = [int(self.shape[0] / 2), int(self.shape[1] / 2)]
         self.background = 1 * np.ones((self.shape[0], self.shape[1], 4)).astype('float32')
@@ -26,13 +25,16 @@ class NFTGenerator:
                        'gold': 'gold_helmet.png'}
         self.head_center = [[39, 27], [39, 44]]
         # center coordinates [y, x]
-        self.helmet_center = [[4, 24]]
+        # helmet center is [6,24]
+        self.helmet_center = [[6, 24]]
 
         self.chest = {'leather': 'leather.png'}
-        self.chest_center = [[55, 59]]
+        # chest center is [22,24]
+        self.chest_center = [[22, 24]]
 
         self.pants = {'leather': 'leather_pants.png'}
-        self.pants_center = [[100, 200]]
+        # pants center is [38,24]
+        self.pants_center = [[38, 24]]
 
         self.minecraft = {'default': 'final_char.png'}
 
@@ -123,12 +125,9 @@ class NFTGenerator:
 
         new_layer = self.background_mask.copy()
         m, n = layer_mask.shape[:2]
-        print(m, n)
         mc, nc = int(m / 2), int(n / 2)
-        print(mc, nc)
         for c in center:
             xc, yc = c
-            print('xc/yc ' + str(xc) + ' ' + str(yc))
             if m % 2 == 1 and n % 2 == 1:
                 new_layer[xc - mc - 1:xc + mc, yc - nc - 1:yc + nc, :] = layer_mask
             elif m % 2 == 1:
@@ -150,14 +149,11 @@ class NFTGenerator:
         self.background = 1 * np.ones((self.shape[0], self.shape[1], 4)).astype('float32')
         self.current_image = self.background.copy()
 
-
-if '__name__' == '__main__':
-    p = NFTGenerator()
-    p.show_plots = False
-    p.create_background('rainbow')
-    p.add_layer(p.minecraft['default'], p.center)
-    p.add_layer(p.helmet['leather'], p.helmet_center)
-    p.make_plot(p.current_image)
-    # p.add_layer(p.chest['leather'], p.chest_center)
-    # p.add_layer(p.pants['leather'], p.pants_center)
-    # p.make_plot(p.current_image)
+#p = NFTGenerator()
+#p.show_plots = True
+#p.create_background('rainbow')
+#p.add_layer(p.minecraft['default'], p.center)
+#p.add_layer(p.helmet['leather'], p.helmet_center)
+#p.add_layer(p.chest['leather'], p.chest_center)
+#p.add_layer(p.pants['leather'], p.pants_center)
+#p.make_plot(p.current_image)
