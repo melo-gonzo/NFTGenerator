@@ -17,26 +17,35 @@ backgrounds = {'purple': 100,
                 'yellow': 100,
                 'orange': 100,
                 'red': 100,
-                'rainbow': 20}
+                'rainbow': 10}
 background_type = list(backgrounds.keys())
 
 backgrounds_remaining = copy.deepcopy(backgrounds)
 
-helmet = {'leather': 55,
-         'gold': 45,
-         'none': 0}
+helmet = {'leather': 60,
+          'chainmail': 50,
+          'gold': 40,
+          'iron': 25,
+          'diamond': 10,
+          'none': 40}
 helmet_type = list(helmet.keys())
 helmet_remaining = copy.deepcopy(helmet)
 
-chest = {'leather': 50,
-         #'gold': 50,
-         'none': 50}
+chest = {'leather': 60,
+         'chainmail': 50,
+         'gold': 40,
+         'iron': 25,
+         'diamond': 10,
+         'none': 40}
 chest_type = list(chest.keys())
 chest_remaining = copy.deepcopy(chest)
 
 pants = {'leather': 50,
-         #'gold': 50,
-         'none': 50}
+         'chainmail': 50,
+         'gold': 40,
+         'iron': 25,
+         'diamond': 10,
+         'none': 40}
 pants_type = list(pants.keys())
 pants_remaining = copy.deepcopy(pants)
 
@@ -101,11 +110,10 @@ while total_made < np.sum([b for b in backgrounds.values()]):
             p.create_background(background_)
         if base_ != 'none':
             p.add_layer(p.minecraft[base_], p.center)
+        #if background_ == 'rainbow':
+        #    p.add_layer(p.helmet['diamond'], p.helmet_center)
         if helmet_ != 'none':
-            if helmet_ == 'sunglasses':
-                p.add_layer(p.helmet[helmet_], p.helmet_center)
-            else:
-                p.add_layer(p.helmet[helmet_], p.helmet_center)
+            p.add_layer(p.helmet[helmet_], p.helmet_center)
         if chest_ != 'none':
             p.add_layer(p.chest[chest_], p.chest_center)
         if pants_ != 'none':
