@@ -1,2 +1,5 @@
 *.png
 *.zip
+/images_gimp/
+/final_images/
+/final_larger/
