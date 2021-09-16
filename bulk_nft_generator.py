@@ -26,7 +26,7 @@ helmet = {'leather': 60,
           'chainmail': 50,
           'gold': 40,
           'iron': 25,
-          'diamond': 10,
+          'diamond': 8,
           'none': 40}
 helmet_type = list(helmet.keys())
 helmet_remaining = copy.deepcopy(helmet)
@@ -35,7 +35,7 @@ chest = {'leather': 60,
          'chainmail': 50,
          'gold': 40,
          'iron': 25,
-         'diamond': 10,
+         'diamond': 5,
          'none': 40}
 chest_type = list(chest.keys())
 chest_remaining = copy.deepcopy(chest)
@@ -44,7 +44,7 @@ pants = {'leather': 50,
          'chainmail': 50,
          'gold': 40,
          'iron': 25,
-         'diamond': 10,
+         'diamond': 5,
          'none': 40}
 pants_type = list(pants.keys())
 pants_remaining = copy.deepcopy(pants)
@@ -114,10 +114,16 @@ while total_made < np.sum([b for b in backgrounds.values()]):
         #    p.add_layer(p.helmet['diamond'], p.helmet_center)
         if helmet_ != 'none':
             p.add_layer(p.helmet[helmet_], p.helmet_center)
-        if chest_ != 'none':
-            p.add_layer(p.chest[chest_], p.chest_center)
+
         if pants_ != 'none':
             p.add_layer(p.pants[pants_], p.pants_center)
+        elif pants_ == 'none' and chest_ != 'none':
+            p.add_layer(p.pants[pants_], p.pants_center)
+
+        if chest_ != 'none':
+            p.add_layer(p.chest[chest_], p.chest_center)
+        elif chest_ == 'none' and pants_ != 'none':
+            p.add_layer(p.chest[chest_], p.chest_center)
 
          # p.make_plot(p.current_image)
         types_made.append(cp_name)
@@ -126,8 +132,8 @@ while total_made < np.sum([b for b in backgrounds.values()]):
         chest_remaining[chest_] -= 1
         pants_remaining[pants_] -= 1
         total_made += 1
-        plt.imsave("D:\\Git\\nftgen\\NFTGenerator\\final_images\\" + cp_name + '_' + str(total_made) + '.png', p.current_image)
-        plt.imsave("D:\\Git\\nftgen\\NFTGenerator\\final_images\\" + str(total_made) + '.png', p.current_image)
+        plt.imsave("D:\\Git\\nftgen\\NFTGenerator\\minecraft_nft\\" + cp_name + '_' + str(total_made) + '.png', p.current_image)
+        plt.imsave("D:\\Git\\nftgen\\NFTGenerator\\minecraft_nft\\" + str(total_made) + '.png', p.current_image)
         print(cp_name)
     else:
         attempts += 1

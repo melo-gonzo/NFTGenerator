@@ -35,15 +35,18 @@ class NFTGenerator:
                       'chainmail': 'chainmail_chest.png',
                       'iron': 'iron_chest.png',
                       'gold': 'gold_chest.png',
-                      'diamond': 'diamond_chest.png'}
+                      'diamond': 'diamond_chest.png',
+                      'none': 'shirt_only.png'}
         # chest center is [22,24]
         self.chest_center = [[22, 24]]
+
 
         self.pants = {'leather': 'leather_pants.png',
                       'chainmail': 'chainmail_pants.png',
                       'iron': 'iron_pants.png',
                       'gold': 'gold_pants.png',
-                      'diamond': 'diamond_pants.png'}
+                      'diamond': 'diamond_pants.png',
+                      'none': 'pants_only.png'}
         # pants center is [38,24]
         self.pants_center = [[38, 24]]
 
@@ -91,7 +94,7 @@ class NFTGenerator:
     def make_plot(self, input_image):
         fig = plt.figure(figsize=(10, 10))
         plt.imshow(input_image)
-        plt.imsave("D:\\Git\\nftgen\\NFTGenerator\\final_images\\"  + 'diamond_red' + '.png', input_image)
+        #plt.imsave("D:\\Git\\nftgen\\NFTGenerator\\final_images\\"  + 'diamond_red' + '.png', input_image)
         plt.show()
 
     def create_background(self, color):
@@ -161,11 +164,11 @@ class NFTGenerator:
         self.background = 1 * np.ones((self.shape[0], self.shape[1], 4)).astype('float32')
         self.current_image = self.background.copy()
 
-p = NFTGenerator()
+#p = NFTGenerator()
 #p.show_plots = False
-p.create_background('red')
-p.add_layer(p.minecraft['default'], p.center)
-p.add_layer(p.helmet['diamond'], p.helmet_center)
-p.add_layer(p.chest['diamond'], p.chest_center)
-p.add_layer(p.pants['diamond'], p.pants_center)
-p.make_plot(p.current_image)
+#p.create_background('red')
+#p.add_layer(p.minecraft['default'], p.center)
+#p.add_layer(p.helmet['diamond'], p.helmet_center)
+#p.add_layer(p.pants['none'], p.pants_center)
+#p.add_layer(p.chest['leather'], p.chest_center)
+#p.make_plot(p.current_image)
