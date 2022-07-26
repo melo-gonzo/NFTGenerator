@@ -2,7 +2,9 @@ import numpy as np
 import pyautogui
 import time
 import os
-
+import random
+import csv
+import pandas as pd
 
 def record_mouse_location():
     while True:
@@ -42,82 +44,119 @@ def scroll(scrolls):
         pyautogui.scroll(-1)
         c += 1
 
+def write_to_csv(filename):
+    with open(filename, 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+    csvfile.close()
 
-def do_properties(properties):
-    type_ = [2550, 1020]
-    name_ = [3150, 1020]
-    add_ = [2550, 1160]
-    y_bonus = 40
-    for idx, key in enumerate(properties.keys()):
-        click(type_[0], type_[1] + idx * y_bonus, 0.1, do_enter=enter)
-        type(0.1, key)
-        click(name_[0], name_[1] + idx * y_bonus, 0.1, do_enter=enter)
-        type(0.1, properties[key])
-        click(add_[0], add_[1] + idx * y_bonus, 0.1, do_enter=enter)
-        # pass
+def add_to_csv(l,filename):
+    with open(filename, 'a+', newline='') as csvfile:
+        write_row = csv.writer(csvfile)
+        write_row.writerows([l])
+    csvfile.close()
 
+def csv_to_list(filename):
+    df = pd.read_csv(filename,header=None)
+    data = df[0].tolist()
+    return data
 
 if __name__ == '__main__':
-    # record_mouse_location()
-    files = os.listdir('DigitsOfPi/')
-    complete = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+    #record_mouse_location()
+    os.chdir('C:\\Users\\Ljubo\\Desktop\\nft\\larger\\')
+    csv_filename = 'test.csv'
+    NUMBER_CREATED = 38
+    if os.path.isfile(csv_filename):
+        print('Completed List exists...loading it.')
+        complete = csv_to_list(csv_filename)
+    else:
+        write_to_csv(csv_filename)
+        complete = [26,81,19,175,31,4,22,31,29,73,80,6,209,15,150,170,38,122,227,221,128,20,16,83,8,5,10,7,23,40,4,232,216,64,10,3,204,231,240,37,14,26,198,12,108]
+        for row in complete:
+            print(row)
+            add_to_csv([row],csv_filename)
+    print(complete)
+    files = os.listdir('C:\\Users\\Ljubo\\Desktop\\nft\\larger\\')
+    random.shuffle(files)
     total = len(complete)
     all_times = []
-    for idx in range(len(files)):
-        go_on = False
-        for file in files:
-            idxs = len(str(idx)) + 1
-            if str(idx) + "_" == file[:idxs] and idx not in complete:
+    go_on = True
+    # for idx in range(len(files)):
+    idx=1
+    for file in files:
+        if file.endswith(".csv"):
+            go_on = False
+            break
+        else:
+            if int(file.split('-')[-1].split('_')[1].split('.')[0]) not in complete:
                 go_on = True
-                break
-        if not go_on:
-            continue
-        print("File: %s" % file)
-        start_time = time.time()
-        steps = {'click_url': (2350, 227),
-                 'type_url_enter': 'https://opensea.io/collection/digits-of-pi-collection',
-                 'click_add_item': (3648, 538),
-                 'click_drag_and_drop': (2471, 1085),
-                 'click_search': (3537, 655),
-                 'type_file_enter': file,
-                 'click_name': (2171, 1803),
-                 'type_name': 'Pi Digits NFT #' + str(int(file.split('_')[0]) + 1),
-                 'scroll_down_10': 10,
-                 'click_description': (2171, 1364),
-                 'type_description': 'Pi Digits ' + str(total * 10 + 1) + '-' + str((total + 1) * 10),
-                 'scroll_down_20': 20,
-                 'click_create': (2218, 2042),
-                 'click_exit': (3382, 610),
-                 'click_sell': (3574, 2329),
-                 'click_amount': (2665, 1025),
-                 'type_price': '0.01',
-                 'click_complete_listing': (2903, 1946),
-                 'click_sign': (2447, 1135),
-                 'click_sign_confirm': (3638, 1344)
-                 }
-        # sleep = [5] * len(steps)
-        fille = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
-        sleep = [1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1,   3,  4,  5, 5,   5, 3,  1.5, 2,  5]
-        text_steps = [0, 4, 6, 9]
-        step = 0
-        for step_num, key in enumerate(steps.keys()):
-            print("Step number %i is %s" % (step_num, key))
-            if step >= 0:
-                if 'click' in key:
-                    x, y = steps[key]
-                    enter = True if 'enter' in key else False
-                    click(x, y, sleep[step], do_enter=enter)
-                if 'type' in key:
-                    enter = True if 'enter' in key else False
-                    type(sleep[step], steps[key], do_enter=enter)
-                if 'scroll' in key:
-                    scroll(steps[key])
-                    time.sleep(sleep[step])
-                if 'properties' in key:
-                    do_properties(steps[key])
-            step += 1
-        total += 1
-        all_times.append(time.time() - start_time)
-        print("Avg. Time: %f" % np.round(np.mean(all_times), 3))
-
+            else:
+                go_on = False
+        
+        if go_on == True:
+            print("File: %s" % file)
+            start_time = time.time()
+            steps = {'click_url': (1634, 61),
+                        'type_url_enter': 'https://opensea.io/collection/crypto-minecraft-collection',
+                        'click_add_item': (2488, 218),
+                        'click_drag_and_drop': (1709, 509),
+                        'click_search': (1503, 538),
+                        'type_file_enter': file,
+                        'click_name': (1629, 847),
+                        'type_name': 'Crypto Minecraft #' + str(int(idx) + NUMBER_CREATED),
+                        'scroll_down_100': 100,
+                        #'click_description': (2171, 1364),
+                        #'type_description': 'Pi Digits ' + str(total * 10 + 1) + '-' + str((total + 1) * 10),
+                        'click_properties': (2272,1361),
+                        'type_background': 'Background',
+                        'click_background_box': (1987,483),
+                        'type_background_color': '{0}'.format(str(file.split('-')[0]).capitalize()),
+                        'click_add_more1': (1752,552),
+                        'click_helmet_box': (1762,553),
+                        'type_helmet': 'Helmet',
+                        'click_helmet_color': (2000,553),
+                        'type_helmet_color': '{0}'.format(str(file.split('-')[1]).capitalize()),
+                        'click_add_more2': (1743,621),
+                        'click_chest_box': (1800,624),
+                        'type_chest': 'Chest plate',
+                        'click_chest_color': (1996,627),
+                        'type_chest_color': '{0}'.format(str(file.split('-')[2]).capitalize()),
+                        'click_add_more3': (1756,689),
+                        'click_pants_box': (1776,700),
+                        'type_pants': 'Pants',
+                        'click_pants_color': (1993,694),
+                        'type_pants_color': '{0}'.format(str(file.split('-')[3].split('_')[0]).capitalize()),
+                        'click_save_prop': (1929,860),
+                        'click_to_end': (2548,1371),
+                        'click_create': (1571, 1243),
+                        'click_exit': (2160, 276),
+                        'click_sell': (2399, 215),
+                        'click_amount': (1804, 485),
+                        'type_price': '0.004',
+                        'click_complete_listing': (1918, 938),
+                        'click_sign': (1696, 539),
+                        'click_sign_confirm': (2486, 557)
+                        }
+            sleep = [3] * len(steps)
+            text_steps = [0, 4, 6, 9]
+            step = 0
+            for step_num, key in enumerate(steps.keys()):
+                print("Step number %i is %s" % (step_num, key))
+                if step >= 0:
+                    if 'click' in key:
+                        x, y = steps[key]
+                        enter = True if 'enter' in key else False
+                        click(x, y, sleep[step], do_enter=enter)
+                    if 'type' in key:
+                        enter = True if 'enter' in key else False
+                        type(sleep[step], steps[key], do_enter=enter)
+                    if 'scroll' in key:
+                        scroll(steps[key])
+                        time.sleep(sleep[step])
+                step += 1
+            total += 1
+            idx += 1
+            all_times.append(time.time() - start_time)
+            print("Avg. Time: %f" % np.round(np.mean(all_times), 3))
+            print('Adding {0} to completed list.'.format(int(file.split('-')[-1].split('_')[1].split('.')[0])))
+            add_to_csv([int(file.split('-')[-1].split('_')[1].split('.')[0])],csv_filename)
 
