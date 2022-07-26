@@ -1,6 +1,11 @@
-*.png
-*.zip
-/images_gimp/
-/final_images/
-/final_larger/
-/minecraft_nft/
+*.png*
+*.jpg*
+*.zip*
+*/images_gimp/*
+*/final_images/*
+*/final_larger/*
+*/minecraft_nft/*
+*.vs*
+*HashLips*
+*NFTImages*
+*__pycache__*
